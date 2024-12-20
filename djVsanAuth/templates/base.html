@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+    {% block title %}VSAN Cluster Capacity Calculator{% endblock %}
+    </title>
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            height: 100vh;
+            width: 250px;
+            position: fixed;
+            background-color: #a50645;
+            color: white;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 15px;
+            text-decoration: none;
+            text-align: center;
+            margin: 5px 0;
+        }
+        .sidebar a:hover {
+            background-color: #c61d60;
+        }
+        .vertical-shelf{
+            margin-left: 270px;
+            display: flex;
+            flex-direction: column; /* Stack elements vertically */
+            width: 100vw; /* Full viewport width */
+            height: 100vh; /* Full viewport height */
+            align-items: center; /* Ensure items stretch perpendicular to main axis. here we chose column so align horizontally */
+            justify-content: flex-start; /* alignment along the main axis so here it flex from start vertically */
+                /*https://www.w3schools.com/css/css3_flexbox_container.asp*/
+            }
+        p#brief{
+            margin-right: 50px;
+            margin-left: 50px;
+            text-align: center;
+            color: #69f;
+            font-size: larger;
+            border-style: solid;
+            border-color: chartreuse;
+            width: 100%;
+        }
+        p#privacy{ 
+            /*margin-left: 250px;*/
+            color: #69f;
+            font-size: large;
+            border-style: solid;
+            border-color: chartreuse;
+            width: 100%;
+        }
+        .main-content {
+            /*margin-left: 250px;*/
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            flex: 1;
+            justify-content: center;
+            align-items: center;
+            background-color: #f1f1f1
+        }
+
+        .active {
+            background-color: #d6b962;
+        }
+        footer {
+            margin-left: 250px;
+            background-color: #000080;
+            color: white;
+            text-align: center;
+            width: 100%;
+            bottom: 0;
+            position: fixed;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2 style="text-align: center;">VSAN Cluster Capacity Calculator </h2>
+        <!-- <a href="{% url 'dashboard' %}" class="{% if request.path == '/djVsanAuth/dashboard/' %}active{% endif %}">Dashboard</a> -->
+        <a href="{% url 'register' %}" class="{% if request.path == '/djVsanAuth/register/' %}active{% endif %}">Register</a>
+        <a href="{% url 'login' %}" class="{% if request.path == '/djVsanAuth/login/' %}active{% endif %}">Login</a>
+        <!--<a href="{% url 'logout' %}">Logout</a> -->
+    </div>
+     <div class = "vertical-shelf">
+        <p id="brief"><b>This program calculates capacity of your VSAN cluster </b></p>
+
+        <b>Raw and Usable Capacity </b><br>
+        Note: On-disk format version 2.0 is still valid for VSAN8u3 OSA <br>
+        Note: There is an extra 6.2 percent overhead for Deduplication and compression with software checksum enabled<br><br>
+
+        <div class="main-content">
+            {% block content %}
+            <!-- Content from child templates appears here -->
+            {% endblock %}
+        </div>
+    </div>
+<footer>
+    <div>
+        <p>&copy; 2024 Django App. Open Source Bootstrap Licensed MIT, Docs by CreativeCommons </p>
+    </div>
+</footer>
+</body>
+</html>
+

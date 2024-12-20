@@ -1,0 +1,32 @@
+{% for field in form %}
+    <div class="form-group">
+        <div>
+            <span class="text-a"> {{ field.errors }}</span>    
+        </div>
+        <!--<pre> {{ form.instance }} </pre>
+        <pre>View Type: {{ view_type }}</pre> -->
+        <!--{% for field in form %}
+        <p>{{ field.label }}: {{ field.value }}</p>
+        {% endfor %} -->
+
+        {% if field.html_name == "RawCap" or field.html_name == "SpbmCap" or field.html_name == "OndiskOver" %}
+            {{ hidden }}
+        {% else %} 
+        <!--<pre>{{ field.label }} - Value: {{ field.value }} - Initial: {{ field.initial }}</pre> -->
+
+            <label for="{{ field.id_for_label }}"> {{ field.label }}</label>
+            <div class="col-sm-6">
+                <!-- Render the form field -->
+                {{ field }}
+
+                <!-- Display the current value for ClusterUpdate -->
+                {% if view_type == "ClusterUpdate" %}
+                    <small class="text-muted">Current value: {{ field.initial }}</small>
+                {% endif %}
+            </div>
+       {% endif %} 
+    </div>
+{% endfor %}
+
+
+<!-- in order to hide rawcap & spbmcap i changed "field.is_hidden" to hidden -->  	

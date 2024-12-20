@@ -1,0 +1,127 @@
+<html>
+    <head>
+        <title>
+            django VSAN Capacity
+        </title>
+        <style type="text/css">
+            body{ 
+                color: #030c1f;
+                font-size:medium;
+                text-align:center;
+            }
+      
+            h2.data{
+                font-size: medium;
+                color:#69f;
+            }
+            h1.result{
+                font-size: x-large;
+                color:#030c1f;
+            }
+            .km25 {
+            display: flex;
+            background-color: #f1f1f1;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: center; 
+            justify-content: space-around; 
+            /*padding: 20px;*/
+            gap: 20px;
+            }
+            .km25 ul {
+                list-style: none;  /* Remove default bullet points */
+                margin: 0;       /* Reset default browser margin if any */
+                padding: 10px;  /* Add padding for spacing inside */
+                border: 1px solid #ccc;/*Add border around each cluster */
+                background-color: white;/* Set background for each item */
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for aesthetics */
+                flex: 0 1 calc(33.33% - 20px); /* zero flex-grow, one for flex-shrink and initialize with 1/3 of width minus 20px */
+                box-sizing: border-box; /* Ensure padding/border don't affect width */
+            }
+
+            .km25 ul li {
+                margin: 10px 0;   
+            }
+
+            .km25 h2.data {
+                font-size: medium;
+                color: #69f;
+                margin: 5px 0;     
+            }
+
+            .km25 h1.result {
+                font-size: large;
+                color: #030c1f;
+                margin: 10px 0;    
+            }
+            button {
+                margin: 5px;         
+            }
+        </style>
+    </head>
+    <body>
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class = "vertical-shelf">
+                <!-- Logout via POST -->
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+        <!-- Logout via GET (if allowed) 
+        <a href="{% url 'logout' %}">Logout</a> -->
+  <p id="privacy"> <b>{{ user.username }} will have secure access to private clusters </b></p>
+
+    <div class='km25'>
+         {% if cluster_list %}
+         {% for cluster in cluster_list %}
+    <ul>
+        <li>
+         	<h2 class='data'>Customer Name : {{ cluster.CustomerName }}</h2>
+         	<h2 class='data'>Number of DiskGroups : {{ cluster.NumDG }}</h2>
+         	<h2 class='data'>Number of capacity disks : {{ cluster.NumCapDisks }}</h2>
+         	<h2 class='data'>SSD size(GB) : {{ cluster.SSDSize }}</h2>
+         	<h2 class='data'>Number of nodes : {{ cluster.NumNodes }}</h2>
+         	<h2 class='data'>Selected FTM level : {{ cluster.get_FTM_display }} </h2>
+            <!--<h2 class='data'>on-disk format capacity overhead : {{ cluster.OndiskOver }}</h2>
+     		<h2 class='data'>Cluster ID : {{ cluster.Clusterid }}</h2>-->
+         	<h1 class='result'>Raw capacity(GB): {{ cluster.RawCapacity }}</h1>
+         	<h1 class='result'>Capacity after applying storage policy(GB): {{ cluster.SpbmCapacity }}</h1> 
+         	<form action="{% url 'djVsanCapacity:cluster-delete' cluster.Clusterid %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-default btn-sm"> Delete </button>
+            </form>
+            <!--<form action="{% url 'djVsanCapacity:cluster-update' cluster.Clusterid %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-default btn-sm"> Update </button>
+            </form> -->
+            <form action="{% url 'djVsanCapacity:cluster-update' cluster.Clusterid %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% include 'djVsanCapacity/form-template.html' %}
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-success btn-lg">Update</button>
+        </div>
+    </div>
+</form>
+       		
+         </li>
+    </ul>
+        {% endfor %}
+    </div>
+        {% else %}   
+    <h1 class='result'> No customer's cluster is entered yet</h1>
+
+        {% endif %}
+
+            <form action="{% url 'djVsanCapacity:cluster-entry' %}" method="post" style="display: inline;">
+         			{% csrf_token %}
+                    {% include 'djVsanCapacity/form-template.html' %}
+         			<button type="submit" class="btn btn-primary btn-lg"> Enter a new cluster </button>
+         	</form>	
+        </div>
+          
+		{% endblock %}	
+    </body>
+</html>   
