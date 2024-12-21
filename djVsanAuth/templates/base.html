@@ -20,13 +20,18 @@
 
         .sidebar {
             height: 100vh;
-            width: 250px;
+            width: 20vw;
             position: fixed;
             background-color: #a50645;
             color: white;
             padding-top: 20px;
         }
-
+        .sidebar h2 {
+        text-align: center;
+        font-size: calc(2vw + 1rem); /* Adjusts size based on sidebar 20vw */
+        margin: 0;
+        padding: 10px;
+        }
         .sidebar a {
             display: block;
             color: white;
@@ -39,7 +44,8 @@
             background-color: #c61d60;
         }
         .vertical-shelf{
-            margin-left: 270px;
+            margin-left: 20vw;
+            width: 80vw;
             display: flex;
             flex-direction: column; /* Stack elements vertically */
             width: 100vw; /* Full viewport width */
@@ -81,7 +87,7 @@
             background-color: #d6b962;
         }
         footer {
-            margin-left: 250px;
+            /*margin-left: 250px;*/
             background-color: #000080;
             color: white;
             text-align: center;
@@ -95,7 +101,7 @@
 <body>
 
     <div class="sidebar">
-        <h2 style="text-align: center;">VSAN Cluster Capacity Calculator </h2>
+        <h2>VSAN Cluster Capacity Calculator </h2>
         <!-- <a href="{% url 'dashboard' %}" class="{% if request.path == '/djVsanAuth/dashboard/' %}active{% endif %}">Dashboard</a> -->
         <a href="{% url 'register' %}" class="{% if request.path == '/djVsanAuth/register/' %}active{% endif %}">Register</a>
         <a href="{% url 'login' %}" class="{% if request.path == '/djVsanAuth/login/' %}active{% endif %}">Login</a>
