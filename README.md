@@ -1,4 +1,4 @@
-# Django Authentication Project
+# Django VSAN Capacity Project
 
 This project demonstrates a Django-based web portal, which calculates capacity of your VSAN cluster in raw format or effective after applying storage policy, and results are saved in a DB for further analytical purposes.
 https://www.youtube.com/watch?v=rxt4Au31NOY
